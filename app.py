@@ -67,7 +67,6 @@ probs = F.softmax(outputs.logits, dim=1)[0]
 
 pred = torch.argmax(probs).item()
 confidence = probs[pred].item() * 100
-
 return pred, confidence, probs.tolist()
 
 # ============================================================
