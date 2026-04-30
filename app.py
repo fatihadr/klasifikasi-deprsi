@@ -313,7 +313,8 @@ elif menu == "Upload CSV":
                                         hasil_list.append("Error")
                                         conf_list.append(0.0)
                                     else:
-                                        hasil = "Depresi" if probs[1] > threshold else "Tidak Depresi"
+                                        label, _ = classify(probs[1], threshold)
+                                        hasil = label
                                         hasil_list.append(hasil)
                                         conf_list.append(conf)
                                 
