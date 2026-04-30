@@ -153,7 +153,6 @@ def render_prediction_result(pred, confidence, probs, threshold):
     
     label, status = classify(probs)
     
-    col1, col2 = st.columns(2)
     
     with col1:
         if status == "error":
@@ -315,7 +314,7 @@ elif menu == "Upload CSV":
                                         conf_list.append(0.0)
                                     else:
                                         label, _ = classify(probs)
-                                        hasil_list.append(hasil)
+                                        hasil_list.append(label)
                                         conf_list.append(conf)
                                 
                                 progress_bar.progress((idx + 1) / total)
