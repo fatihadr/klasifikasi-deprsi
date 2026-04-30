@@ -45,6 +45,9 @@ def load_model():
         st.error(f"❌ Error loading model: {str(e)}")
         st.stop()
 
+# Initialize tokenizer and model globally
+tokenizer, model = load_model()
+
 # ============================================================
 # LABEL MAPPING
 # ============================================================
