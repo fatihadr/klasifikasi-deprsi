@@ -27,6 +27,13 @@ st.set_page_config(
     layout="wide"
 )
 
+import re
+
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r'(.)\1{2,}', r'\1\1', text)
+    return text
+    
 # ============================================================
 # LOAD MODEL
 # ============================================================
@@ -64,6 +71,8 @@ label_map = {
 def predict_text(text):
     """
     Predict depression classification for input text.
+
+    text = clean_text(text)
     
     Args:
         text (str): Input text to classify
@@ -167,7 +176,7 @@ with st.sidebar:
         "🎯 Threshold Depresi",
         min_value=0.1,
         max_value=0.9,
-        value=0.5,
+        value=0.75,
         step=0.05,
         help="Nilai probabilitas minimum untuk klasifikasi Depresi"
     )
