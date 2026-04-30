@@ -152,13 +152,15 @@ def render_prediction_result(pred, confidence, probs, threshold):
     # Result display
     col1, col2 = st.columns(2)
     
+    label, status = classify(dep_prob, threshold)
+    
     with col1:
-        if dep_prob > threshold:
-            st.error("🚨 Terindikasi Depresi")
-        elif dep_prob > 0.6:
-            st.warning("⚠️ Berpotensi Depresi")
+        if status == "error":
+            st.error(f"🚨 {label}")
+        elif status == "warning":
+            st.warning(f"⚠️ {label}")
         else:
-            st.success("✅ Tidak Terindikasi Depresi")
+            st.success(f"✅ {label}")
     
     with col2:
         st.metric("Confidence Score", f"{confidence:.2f}%")
