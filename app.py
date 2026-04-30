@@ -52,7 +52,6 @@ label_map = {
 
 def predict_text(text):
 
-```
 inputs = tokenizer(
     str(text),
     return_tensors="pt",
@@ -70,7 +69,6 @@ pred = torch.argmax(probs).item()
 confidence = probs[pred].item() * 100
 
 return pred, confidence, probs.tolist()
-```
 
 # ============================================================
 
@@ -99,7 +97,6 @@ threshold = st.sidebar.slider(
 
 if menu == "Input Multi Teks":
 
-```
 st.subheader("Masukkan beberapa teks (pisahkan dengan enter)")
 
 user_input = st.text_area(
@@ -139,7 +136,6 @@ if st.button("Prediksi"):
             "Depresi": dep_prob,
             "Tidak Depresi": non_prob
         })
-```
 
 # ============================================================
 
@@ -149,7 +145,6 @@ if st.button("Prediksi"):
 
 if menu == "Upload CSV":
 
-```
 st.subheader("Upload CSV")
 
 file = st.file_uploader("Upload file CSV (kolom: text)", type=["csv"])
@@ -190,7 +185,6 @@ if file is not None:
             "hasil_prediksi.csv",
             "text/csv"
         )
-```
 
 # ============================================================
 
@@ -200,7 +194,6 @@ if file is not None:
 
 if menu == "Debug Model":
 
-```
 st.subheader("Debug Model")
 
 text = st.text_area("Masukkan teks untuk debug")
@@ -212,7 +205,6 @@ if st.button("Debug"):
     st.write("Probabilities:", probs)
     st.write("Predicted Index:", pred)
     st.write("Label:", label_map[pred])
-```
 
 # ============================================================
 
