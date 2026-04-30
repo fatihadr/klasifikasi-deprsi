@@ -137,6 +137,8 @@ def render_prediction_result(pred, confidence, probs, threshold):
     with col1:
         if dep_prob > threshold:
             st.error("🚨 Terindikasi Depresi")
+        elif dep_prob > 0.6:
+            st.warning("⚠️ Berpotensi Depresi")
         else:
             st.success("✅ Tidak Terindikasi Depresi")
     
