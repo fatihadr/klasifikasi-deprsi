@@ -139,10 +139,8 @@ if st.button("Prediksi"):
 # ============================================================
 
 if menu == "Upload CSV":
-
-st.subheader("Upload CSV")
-
-file = st.file_uploader("Upload file CSV (kolom: text)", type=["csv"])
+    st.subheader("Upload CSV")
+    file = st.file_uploader("Upload file CSV (kolom: text)", type=["csv"])
 
 if file is not None:
 
@@ -187,10 +185,8 @@ if file is not None:
 # ============================================================
 
 if menu == "Debug Model":
-
-st.subheader("Debug Model")
-
-text = st.text_area("Masukkan teks untuk debug")
+    st.subheader("Debug Model")
+    text = st.text_area("Masukkan teks untuk debug")
 
 if st.button("Debug"):
 
