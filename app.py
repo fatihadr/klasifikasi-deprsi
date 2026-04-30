@@ -17,8 +17,8 @@ def load_model():
 tokenizer, model = load_model()
 
 label_map = {
-    0: "Tidak Depresi",
-    1: "Depresi"
+    0: "Depresi",
+    1: "Tidak Depresi"
 }
 
 def predict_text(text):
