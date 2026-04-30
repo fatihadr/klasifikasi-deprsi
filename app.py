@@ -140,42 +140,40 @@ if st.button("Prediksi"):
 if menu == "Upload CSV":
     st.subheader("Upload CSV")
     file = st.file_uploader("Upload file CSV (kolom: text)", type=["csv"])
+    
+    if file is not None:
+        df = pd.read_csv(file)
+        
+        if "text" not in df.columns:
+            st.error("CSV harus memiliki kolom 'text'")
+        else:
+            hasil_list = []
+            conf_list = []
+            
+            for txt in df["text"]:
+                pred, conf, probs = predict_text(txt)
+                
+                if probs[1] > threshold:
+                    hasil = "Depresi"
+                else:
+                    hasil = "Tidak Depresi"
+                
+                hasil_list.append(hasil)
+                conf_list.append(conf)
+            
+            df["prediksi"] = hasil_list
+            df["confidence"] = conf_list
+            
+            st.success("Prediksi selesai")
+            st.dataframe(df)
 
-if file is not None:
-
-    df = pd.read_csv(file)
-
-    if "text" not in df.columns:
-        st.error("CSV harus memiliki kolom 'text'")
-    else:
-        hasil_list = []
-        conf_list = []
-
-        for txt in df["text"]:
-            pred, conf, probs = predict_text(txt)
-
-            if probs[1] > threshold:
-                hasil = "Depresi"
-            else:
-                hasil = "Tidak Depresi"
-
-            hasil_list.append(hasil)
-            conf_list.append(conf)
-
-        df["prediksi"] = hasil_list
-        df["confidence"] = conf_list
-
-        st.success("Prediksi selesai")
-        st.dataframe(df)
-
-        csv = df.to_csv(index=False).encode("utf-8")
-
-        st.download_button(
-            "Download Hasil",
-            csv,
-            "hasil_prediksi.csv",
-            "text/csv"
-        )
+csv = df.to_csv(index=False).encode("utf-8")
+st.download_button(
+    "Download Hasil",
+    csv,
+    "hasil_prediksi.csv",
+    "text/csv"
+)
 
 # ============================================================
 
