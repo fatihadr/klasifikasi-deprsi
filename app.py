@@ -85,7 +85,7 @@ menu = st.sidebar.selectbox(
 
 threshold = st.sidebar.slider(
 "Threshold Depresi",
-0.1, 0.9, 0.45, 0.05
+0.1, 0.9, 0.65, 0.05
 )
 
 # ============================================================
