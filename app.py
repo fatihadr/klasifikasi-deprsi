@@ -118,20 +118,19 @@ def predict_text(text):
         st.error(f"❌ Error during prediction: {str(e)}")
         return None, 0.0, [0.5, 0.5]
 
-def classify(dep_prob, threshold):
-    """
-    Classify depression level based on probability and threshold.
-    
-    Args:
-        dep_prob (float): Depression probability
-        threshold (float): Classification threshold
-        
-    Returns:
-        tuple: (classification_label, status_type)
-    """
-    if dep_prob >= threshold:
+# ============================================================
+# CLASSIFICATION (SCORE-BASED)
+# ============================================================
+
+def classify(probs):
+    dep_prob = probs[1]
+    non_prob = probs[0]
+
+    score = dep_prob - non_prob
+
+    if score > 0.25:
         return "Depresi", "error"
-    elif dep_prob >= 0.6:
+    elif score > 0.05:
         return "Berpotensi Depresi", "warning"
     else:
         return "Tidak Depresi", "success"
@@ -152,7 +151,9 @@ def render_prediction_result(pred, confidence, probs, threshold):
     # Result display
     col1, col2 = st.columns(2)
     
-    label, status = classify(dep_prob, threshold)
+    label, status = classify(probs)
+    
+    col1, col2 = st.columns(2)
     
     with col1:
         if status == "error":
@@ -165,17 +166,17 @@ def render_prediction_result(pred, confidence, probs, threshold):
     with col2:
         st.metric("Confidence Score", f"{confidence:.2f}%")
     
-    # Probability details
     st.divider()
     st.subheader("📊 Analisis Probabilitas")
     
     prob_col1, prob_col2 = st.columns(2)
+    
     with prob_col1:
         st.metric("Depresi", f"{dep_prob:.4f} ({dep_prob*100:.2f}%)")
+    
     with prob_col2:
         st.metric("Tidak Depresi", f"{non_prob:.4f} ({non_prob*100:.2f}%)")
     
-    # Visualization
     st.bar_chart({
         "Depresi": dep_prob,
         "Tidak Depresi": non_prob
@@ -313,8 +314,7 @@ elif menu == "Upload CSV":
                                         hasil_list.append("Error")
                                         conf_list.append(0.0)
                                     else:
-                                        label, _ = classify(probs[1], threshold)
-                                        hasil = label
+                                        label, _ = classify(probs)
                                         hasil_list.append(hasil)
                                         conf_list.append(conf)
                                 
@@ -339,8 +339,8 @@ elif menu == "Upload CSV":
                                 tidak_count = (df["prediksi"] == "Tidak Depresi").sum()
                                 st.metric("Tidak Depresi", tidak_count)
                             with col3:
-                                error_count = (df["prediksi"] == "Error").sum()
-                                st.metric("Error", error_count)
+                                risiko_count = (df["prediksi"] == "Berpotensi Depresi").sum()
+                                st.metric("Berpotensi Depresi", risiko_count)
                             
                             # Download results
                             csv = df.to_csv(index=False).encode("utf-8")
