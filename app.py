@@ -118,6 +118,24 @@ def predict_text(text):
         st.error(f"❌ Error during prediction: {str(e)}")
         return None, 0.0, [0.5, 0.5]
 
+def classify(dep_prob, threshold):
+    """
+    Classify depression level based on probability and threshold.
+    
+    Args:
+        dep_prob (float): Depression probability
+        threshold (float): Classification threshold
+        
+    Returns:
+        tuple: (classification_label, status_type)
+    """
+    if dep_prob >= threshold:
+        return "Depresi", "error"
+    elif dep_prob >= 0.6:
+        return "Berpotensi Depresi", "warning"
+    else:
+        return "Tidak Depresi", "success"
+
 # ============================================================
 # UI COMPONENTS
 # ============================================================
