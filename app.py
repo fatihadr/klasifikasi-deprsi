@@ -58,16 +58,16 @@ def predict_text(text):
         truncation=True,
         padding=True,
         max_length=MAX_LEN
-)
-
-with torch.no_grad():
-    outputs = model(**inputs)
+    )
     
-probs = F.softmax(outputs.logits, dim=1)[0]
-pred = torch.argmax(probs).item()
-confidence = probs[pred].item() * 100
+    with torch.no_grad():
+        outputs = model(**inputs)
     
-return pred, confidence, probs.tolist()
+    probs = F.softmax(outputs.logits, dim=1)[0]
+    pred = torch.argmax(probs).item()
+    confidence = probs[pred].item() * 100
+    
+    return pred, confidence, probs.tolist()
 
 # ============================================================
 
