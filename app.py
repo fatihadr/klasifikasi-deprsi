@@ -185,14 +185,12 @@ if menu == "Upload CSV":
 if menu == "Debug Model":
     st.subheader("Debug Model")
     text = st.text_area("Masukkan teks untuk debug")
-
-if st.button("Debug"):
-
-    pred, conf, probs = predict_text(text)
-
-    st.write("Probabilities:", probs)
-    st.write("Predicted Index:", pred)
-    st.write("Label:", label_map[pred])
+    
+    if st.button("Debug"):
+        pred, conf, probs = predict_text(text)
+        st.write("Probabilities:", probs)
+        st.write("Predicted Index:", pred)
+        st.write("Label:", label_map[pred])
 # ============================================================
 
 # FOOTER
