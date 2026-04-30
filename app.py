@@ -11,7 +11,6 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 # ============================================================
 
 MODEL_NAME = "fatihadr/augmented-indobert-klasifikasi-depresi"
-
 MAX_LEN = 512
 
 st.set_page_config(
@@ -28,14 +27,16 @@ layout="wide"
 
 @st.cache_resource
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
-    model.eval()
-    return tokenizer, model
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
+model.eval()
+return tokenizer, model
+
+tokenizer, model = load_model()
 
 # ============================================================
 
-# LABEL (WAJIB BENAR)
+# LABEL
 
 # ============================================================
 
@@ -51,13 +52,12 @@ label_map = {
 # ============================================================
 
 def predict_text(text):
-
 inputs = tokenizer(
-    str(text),
-    return_tensors="pt",
-    truncation=True,
-    padding=True,
-    max_length=MAX_LEN
+str(text),
+return_tensors="pt",
+truncation=True,
+padding=True,
+max_length=MAX_LEN
 )
 
 with torch.no_grad():
@@ -118,12 +118,9 @@ if st.button("Prediksi"):
         dep_prob = probs[1]
         non_prob = probs[0]
 
-        # threshold logic
         if dep_prob > threshold:
-            hasil = "Depresi"
             st.error("Terindikasi Depresi")
         else:
-            hasil = "Tidak Depresi"
             st.success("Tidak Terindikasi Depresi")
 
         st.write(f"Confidence: {conf:.2f}%")
@@ -162,7 +159,6 @@ if file is not None:
         for txt in df["text"]:
             pred, conf, probs = predict_text(txt)
 
-            # gunakan threshold
             if probs[1] > threshold:
                 hasil = "Depresi"
             else:
@@ -205,7 +201,6 @@ if st.button("Debug"):
     st.write("Probabilities:", probs)
     st.write("Predicted Index:", pred)
     st.write("Label:", label_map[pred])
-
 # ============================================================
 
 # FOOTER
