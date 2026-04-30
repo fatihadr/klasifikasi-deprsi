@@ -166,14 +166,15 @@ if menu == "Upload CSV":
             
             st.success("Prediksi selesai")
             st.dataframe(df)
-
-csv = df.to_csv(index=False).encode("utf-8")
-st.download_button(
-    "Download Hasil",
-    csv,
-    "hasil_prediksi.csv",
-    "text/csv"
-)
+            
+            csv = df.to_csv(index=False).encode("utf-8")
+            
+            st.download_button(
+                "Download Hasil",
+                csv,
+                "hasil_prediksi.csv",
+                "text/csv"
+            )
 
 # ============================================================
 
