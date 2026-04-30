@@ -96,12 +96,10 @@ threshold = st.sidebar.slider(
 # ============================================================
 
 if menu == "Input Multi Teks":
-
-st.subheader("Masukkan beberapa teks (pisahkan dengan enter)")
-
-user_input = st.text_area(
-    "Contoh:\naku capek hidup\nmerasa kosong\nkehilangan semangat",
-    height=250
+    st.subheader("Masukkan beberapa teks (pisahkan dengan enter)")
+    user_input = st.text_area(
+        "Contoh:\naku capek hidup\nmerasa kosong\nkehilangan semangat",
+        height=250
 )
 
 if st.button("Prediksi"):
