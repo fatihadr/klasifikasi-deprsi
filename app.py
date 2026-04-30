@@ -4,6 +4,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import logging
+import re
 
 # ============================================================
 # LOGGING SETUP
@@ -27,13 +28,16 @@ st.set_page_config(
     layout="wide"
 )
 
-import re
+# ============================================================
+# TEXT CLEANING
+# ============================================================
 
 def clean_text(text):
+    """Clean and normalize text input."""
     text = text.lower()
     text = re.sub(r'(.)\1{2,}', r'\1\1', text)
     return text
-    
+
 # ============================================================
 # LOAD MODEL
 # ============================================================
@@ -71,8 +75,6 @@ label_map = {
 def predict_text(text):
     """
     Predict depression classification for input text.
-
-    text = clean_text(text)
     
     Args:
         text (str): Input text to classify
@@ -81,6 +83,9 @@ def predict_text(text):
         tuple: (predicted_label_index, confidence_score, probability_list)
     """
     try:
+        # Clean text
+        text = clean_text(text)
+        
         # Validate input
         if not text or not text.strip():
             return None, 0.0, [0.5, 0.5]
