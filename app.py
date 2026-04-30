@@ -27,10 +27,10 @@ layout="wide"
 
 @st.cache_resource
 def load_model():
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
-model.eval()
-return tokenizer, model
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
+    model.eval()
+    return tokenizer, model
 
 tokenizer, model = load_model()
 
@@ -52,12 +52,12 @@ label_map = {
 # ============================================================
 
 def predict_text(text):
-inputs = tokenizer(
-str(text),
-return_tensors="pt",
-truncation=True,
-padding=True,
-max_length=MAX_LEN
+    inputs = tokenizer(
+        str(text),
+        return_tensors="pt",
+        truncation=True,
+        padding=True,
+        max_length=MAX_LEN
 )
 
 with torch.no_grad():
